@@ -44,12 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.lime, Colors.lightBlue],
+              colors: [Colors.orangeAccent, Colors.red],
             ),
           ),
           child: Shimmer.fromColors(
-            baseColor: Color(0xff7f00ff),
-            highlightColor: Color(0xffe100ff),
+            baseColor: Color(0xff00ffe1),
+            highlightColor: Color(0xff0055ff),
             child: Text(
               'Let\'s play',
               style: TextStyle(

@@ -6,10 +6,9 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   int leftDiceNumber = 1;
-  int rightDiceNumber = 1;
+  int rightDiceNumber = 2;
   AnimationController _controller;
   CurvedAnimation animation;
 
@@ -18,7 +17,6 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     animate();
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -26,77 +24,91 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   animate(){
-     _controller =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
-        animation= CurvedAnimation(parent: _controller,curve: Curves.bounceOut);
+    _controller = AnimationController( vsync: this, duration: Duration(seconds: 1));
+    animation = CurvedAnimation(parent: _controller, curve: Curves.bounceIn);
     animation.addListener(() {
       setState(() {
-        
+
       });
-      // print(_controller.value);
+      print(animation.value);
     });
-   animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+    animation.addStatusListener((status) {
+      if(status == AnimationStatus.completed){
+        print('Completed');
+        print('');
         setState(() {
-      leftDiceNumber = Random().nextInt(6) + 1;
-      rightDiceNumber = Random().nextInt(6) + 1;
-    });
-        // print('Completed');
-       _controller.reverse();
+          leftDiceNumber = Random().nextInt(6) + 1;
+          rightDiceNumber = Random().nextInt(6) + 1;
+        });
+        _controller.reverse();
       }
     });
   }
 
-  void roll() {
+  void diceNumber() {
     _controller.forward();
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.redAccent[200],
       appBar: AppBar(
-        title: Text('Dicee'),
+        backgroundColor: Colors.red,
+        title: Text("Dicee"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onDoubleTap: roll,
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Image(height:200- (animation.value)*200,
-                        image: AssetImage(
-                            'assets/images/dice-png-$leftDiceNumber.png'),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onDoubleTap: (){ diceNumber(); },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                            'assets/images/dice$leftDiceNumber.png',
+                              height: 200-(animation.value)*200,
+                        ),
                       ),
                     ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onDoubleTap: diceNumber,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                            'assets/images/dice$rightDiceNumber.png',
+                            height: 200-(animation.value)*200,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  // Add your onPressed code here!
+                  diceNumber();
+                },
+                label: const Text(
+                  'Shuffle',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Expanded(
-                  child: GestureDetector(
-                    onDoubleTap: roll,
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Image(height:200- (animation.value)*200,
-                        image: AssetImage(
-                            'assets/images/dice-png-$rightDiceNumber.png'),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            RaisedButton(
-              onPressed: roll,
-              child: Text(
-                'Roll',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                icon: const Icon(Icons.album_sharp),
+                backgroundColor: Colors.red,
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -14,7 +14,7 @@ Its better to mention full path in Image asset like:
 
 AssetImage('assets/images/dice-png-$rightDiceNumber.png')
 
-otherwise if you metion like:  
+otherwise if you mention like:  
 
 AssetImage('images/dice-png-$rightDiceNumber.png')
 
