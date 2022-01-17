@@ -7,8 +7,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  int leftDiceNumber = 1;
-  int rightDiceNumber = 2;
+  int leftDiceNumber = 6;
+  int rightDiceNumber = 6;
   AnimationController _controller;
   CurvedAnimation animation;
 
